@@ -1,0 +1,203 @@
+/* Companies.css */
+.animated-button {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+.animated-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.animated-button:active {
+  transform: translateY(0);
+}
+
+.animated-button::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.1);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.5s ease;
+  z-index: -1;
+}
+
+.animated-button:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+.btn-primary.animated-button:hover {
+  background-color: #0b5ed7;
+  border-color: #0a58ca;
+}
+
+.btn-success.animated-button:hover {
+  background-color: #198754;
+  border-color: #157347;
+}
+
+.btn-warning.animated-button:hover {
+  background-color: #ffca2c;
+  border-color: #ffc720;
+  color: #000;
+}
+
+.btn-info.animated-button:hover {
+  background-color: #31d2f2;
+  border-color: #25cff2;
+  color: #000;
+}
+
+.btn-danger.animated-button:hover {
+  background-color: #dc3545;
+  border-color: #bb2d3b;
+}
+
+.btn-outline-primary.animated-button:hover {
+  background-color: #0d6efd;
+  color: #fff;
+}
+
+.btn-outline-success.animated-button:hover {
+  background-color: #198754;
+  color: #fff;
+}
+
+.btn-outline-warning.animated-button:hover {
+  background-color: #ffc107;
+  color: #000;
+}
+
+.btn-outline-info.animated-button:hover {
+  background-color: #0dcaf0;
+  color: #000;
+}
+
+.btn-outline-danger.animated-button:hover {
+  background-color: #dc3545;
+  color: #fff;
+}
+
+/* Pulse animation for loading buttons */
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.animated-button:disabled {
+  animation: pulse 1.5s infinite;
+}
+
+.card {
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.badge {
+  font-size: 0.75rem;
+}
+
+.btn-group-sm .btn {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+}
+
+.table th {
+  background-color: #f8f9fa;
+  border-top: none;
+}
+
+.table td {
+  vertical-align: middle;
+}
+
+.chart-container {
+  position: relative;
+  height: 300px;
+  width: 100%;
+}
+
+.card {
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.table th {
+  background-color: #f8f9fa;
+  border-top: none;
+}
+
+.table td {
+  vertical-align: middle;
+}
+
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  .card, .card * {
+    visibility: visible;
+  }
+  .card {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    border: none;
+    box-shadow: none;
+  }
+  .no-print {
+    display: none !important;
+  }
+}
+
+.invoice-header {
+  border-bottom: 2px solid #dee2e6;
+  padding-bottom: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.invoice-footer {
+  border-top: 2px solid #dee2e6;
+  padding-top: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.table th {
+  background-color: #f8f9fa;
+  border-top: none;
+}
+
+.total-card {
+  background-color: #f8f9fa;
+  border-radius: 0.25rem;
+  padding: 1rem;
+}
+
+
+

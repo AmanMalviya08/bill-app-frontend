@@ -1,0 +1,225 @@
+
+.card-hover {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.card-hover:hover {
+  transform: scale(1.03);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+.btn-funky {
+  background: linear-gradient(45deg, #ff4e50, #f9d423);
+  color: white;
+  border: none;
+  transition: all 0.3s ease;
+}
+.btn-funky:hover {
+  transform: scale(1.1);
+  background: linear-gradient(45deg, #f9d423, #ff4e50);
+}
+
+
+@keyframes pulse {
+  0% {
+    transform: translateZ(30px) scale(1);
+    text-shadow: 
+      0 0 10px var(--glow),
+      0 0 20px var(--glow),
+      0 0 30px var(--glow),
+      0 5px 0 rgba(0,0,0,0.3),
+      0 10px 10px rgba(0,0,0,0.2);
+  }
+  100% {
+    transform: translateZ(30px) scale(1.05);
+    text-shadow: 
+      0 0 15px var(--glow),
+      0 0 30px var(--glow),
+      0 0 45px var(--glow),
+      0 8px 0 rgba(0,0,0,0.3),
+      0 15px 15px rgba(0,0,0,0.3);
+  }
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0) translateX(0) translateZ(10px);
+  }
+  50% {
+    transform: translateY(-20px) translateX(10px) translateZ(10px);
+  }
+  100% {
+    transform: translateY(0) translateX(0) translateZ(10px);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px) translateZ(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) translateZ(20px);
+  }
+}
+
+.edge {
+  position: absolute;
+  background: rgba(255,255,255,0.1);
+  z-index: 1;
+}
+
+.edge-top {
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  transform-origin: top center;
+  transform: rotateX(90deg) translateZ(-1px);
+}
+
+.edge-right {
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 1px;
+  transform-origin: right center;
+  transform: rotateY(90deg) translateZ(-1px);
+}
+
+.edge-bottom {
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  transform-origin: bottom center;
+  transform: rotateX(90deg) translateZ(1px);
+}
+
+.edge-left {
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 1px;
+  transform-origin: left center;
+  transform: rotateY(90deg) translateZ(1px);
+}
+
+.funky-header::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  right: -50%;
+  bottom: -50%;
+  background: linear-gradient(
+    45deg,
+    rgba(255,255,255,0.02) 0%,
+    transparent 50%,
+    rgba(255,255,255,0.02) 100%
+  );
+  transform: translateZ(-50px);
+  animation: shine 5s infinite linear;
+}
+
+@keyframes shine {
+  0% {
+    transform: translateZ(-50px) rotate(0deg);
+  }
+  100% {
+    transform: translateZ(-50px) rotate(360deg);
+  }
+}
+
+
+
+
+/* Card hover and bounce */
+.overview-card {
+  position: relative;
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+  cursor: pointer;
+}
+.overview-card:hover {
+  transform: translateY(-10px) scale(1.03);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+  animation: bounce 0.6s ease;
+}
+
+/* Icon pop animation */
+.icon-pop {
+  transition: transform 0.4s ease;
+}
+.overview-card:hover .icon-pop {
+  transform: scale(1.15) rotate(5deg);
+}
+
+/* Shine sweep effect */
+.shine-effect::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -75%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transform: skewX(-25deg);
+}
+.shine-effect:hover::before {
+  animation: shine 1.2s ease forwards;
+}
+
+/* Fade-in on load */
+.animate-fade-in {
+  animation: fadeIn 0.8s ease-out;
+}
+
+/* Keyframes */
+@keyframes fadeIn {
+  0% { opacity: 0; transform: translateY(20px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+@keyframes shine {
+  0% { left: -75%; }
+  100% { left: 125%; }
+}
+
+
+
+/* Invoice Report Styles */
+.invoice-report {
+  padding: 20px;
+}
+
+.report-filters {
+  margin-bottom: 20px;
+}
+
+.report-summary {
+  margin-bottom: 20px;
+}
+
+.status-pending {
+  color: #faad14;
+  font-weight: 500;
+}
+
+.status-paid {
+  color: #52c41a;
+  font-weight: 500;
+}
+
+.status-partially_paid {
+  color: #1890ff;
+  font-weight: 500;
+}
+
+.ant-table-expanded-row td {
+  background-color: #fafafa;
+}

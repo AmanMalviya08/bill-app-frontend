@@ -1,0 +1,619 @@
+import React, { useState, useEffect } from 'react';
+import { Printer, Download, FileText } from 'lucide-react';
+
+const format = (date, formatStr) => {
+  const options = {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: true
+  };
+  return new Intl.DateTimeFormat('en-IN', options).format(date);
+};
+
+const BranchPerformanceReport = () => {
+  const [reportData, setReportData] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchReportData = async () => {
+      try {
+        setIsLoading(true);
+        // Mock data for demonstration
+        const mockData = {
+          branch: {
+            name: "Downtown Branch",
+            managerName: "Rajesh Kumar",
+            location: "MG Road, Bhilai",
+            isDefault: true,
+            establishedDate: "2018-05-15"
+          },
+          revenueSummary: [
+            { period: "Today", revenue: 125000, invoiceCount: 45, avgInvoiceValue: 2778, isCurrent: true },
+            { period: "This Week", revenue: 750000, invoiceCount: 280, avgInvoiceValue: 2679, isCurrent: false },
+            { period: "This Month", revenue: 2850000, invoiceCount: 1050, avgInvoiceValue: 2714, isCurrent: false },
+            { period: "Last Month", revenue: 2650000, invoiceCount: 980, avgInvoiceValue: 2704, isCurrent: false }
+          ],
+          categoryPerformance: [
+            {
+              name: "Electronics",
+              dailyRevenue: 45000,
+              weeklyRevenue: 285000,
+              monthlyRevenue: 1140000,
+              topSubcategory: { name: "Mobile Phones", revenue: 650000 }
+            },
+            {
+              name: "Clothing",
+              dailyRevenue: 35000,
+              weeklyRevenue: 220000,
+              monthlyRevenue: 850000,
+              topSubcategory: { name: "Formal Wear", revenue: 380000 }
+            }
+          ],
+          topSubcategories: [
+            { name: "Mobile Phones", category: "Electronics", revenue: 650000, salesCount: 125, avgPrice: 5200 },
+            { name: "Laptops", category: "Electronics", revenue: 490000, salesCount: 35, avgPrice: 14000 }
+          ],
+          clientInsights: {
+            regularClients: 245,
+            regularClientsRevenuePercentage: 68,
+            newClientsThisMonth: 42
+          },
+          topClients: [
+            { name: "ABC Enterprises", type: "Corporate", totalSpent: 185000, purchaseCount: 15, avgPurchase: 12333 },
+            { name: "Sharma Trading Co.", type: "Wholesale", totalSpent: 145000, purchaseCount: 22, avgPurchase: 6591 }
+          ],
+          recommendations: [
+            "Focus on expanding mobile phone inventory during festival season",
+            "Implement loyalty program for regular customers",
+            "Consider promotional offers for slow-moving categories"
+          ]
+        };
+        setReportData(mockData);
+      } catch (err) {
+        console.error('Error fetching report data:', err);
+        setError('Failed to load report data');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchReportData();
+  }, []);
+
+  const handlePrint = () => {
+    // Create a new window for printing
+    const printWindow = window.open('', '_blank');
+    const printContent = document.getElementById('report-content').innerHTML;
+    
+    printWindow.document.write(`
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <title>Branch Performance Report</title>
+          <style>
+            * {
+              margin: 0;
+              padding: 0;
+              box-sizing: border-box;
+            }
+            
+            body {
+              font-family: Arial, sans-serif;
+              font-size: 12px;
+              line-height: 1.4;
+              color: #000;
+              background: #fff;
+            }
+            
+            .report-container {
+              max-width: 210mm;
+              margin: 0 auto;
+              padding: 20px;
+            }
+            
+            .header {
+              background: linear-gradient(135deg, #1f2937 0%, #374151 100%);
+              color: white;
+              padding: 30px;
+              margin: -20px -20px 30px -20px;
+              text-align: center;
+            }
+            
+            .header h1 {
+              font-size: 24px;
+              font-weight: bold;
+              margin-bottom: 10px;
+            }
+            
+            .header p {
+              font-size: 14px;
+              opacity: 0.8;
+            }
+            
+            .report-info {
+              text-align: right;
+              margin-top: 15px;
+              font-size: 12px;
+            }
+            
+            h2 {
+              font-size: 18px;
+              font-weight: bold;
+              color: #1f2937;
+              margin: 30px 0 15px 0;
+              padding-bottom: 8px;
+              border-bottom: 2px solid #e5e7eb;
+            }
+            
+            h3 {
+              font-size: 14px;
+              font-weight: bold;
+              color: #374151;
+              margin: 20px 0 10px 0;
+            }
+            
+            .info-box {
+              background: #f8fafc;
+              border-left: 4px solid #3b82f6;
+              padding: 20px;
+              margin: 15px 0;
+            }
+            
+            .grid {
+              display: grid;
+              grid-template-columns: 1fr 1fr;
+              gap: 30px;
+              margin-bottom: 15px;
+            }
+            
+            .grid-3 {
+              display: grid;
+              grid-template-columns: 1fr 1fr 1fr;
+              gap: 20px;
+              text-align: center;
+            }
+            
+            .stat-number {
+              font-size: 20px;
+              font-weight: bold;
+              color: #1f2937;
+            }
+            
+            table {
+              width: 100%;
+              border-collapse: collapse;
+              margin: 15px 0;
+              font-size: 11px;
+            }
+            
+            th {
+              background-color: #1f2937;
+              color: white;
+              padding: 12px 8px;
+              text-align: left;
+              font-weight: bold;
+              font-size: 10px;
+              text-transform: uppercase;
+            }
+            
+            td {
+              padding: 10px 8px;
+              border-bottom: 1px solid #e5e7eb;
+            }
+            
+            tbody tr:hover {
+              background-color: #f9fafb;
+            }
+            
+            .current-row {
+              background-color: #f0fdf4 !important;
+            }
+            
+            .recommendation-list {
+              background: #fffbeb;
+              border-left: 4px solid #f59e0b;
+              padding: 20px;
+              margin: 15px 0;
+            }
+            
+            .recommendation-item {
+              display: flex;
+              align-items: flex-start;
+              margin-bottom: 10px;
+            }
+            
+            .recommendation-number {
+              background: #f59e0b;
+              color: white;
+              width: 20px;
+              height: 20px;
+              border-radius: 50%;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              font-size: 10px;
+              font-weight: bold;
+              margin-right: 10px;
+              flex-shrink: 0;
+            }
+            
+            .footer {
+              margin-top: 40px;
+              padding-top: 20px;
+              border-top: 2px solid #e5e7eb;
+              font-size: 10px;
+              color: #6b7280;
+            }
+            
+            .footer-grid {
+              display: grid;
+              grid-template-columns: 1fr 1fr;
+              gap: 20px;
+              margin-bottom: 15px;
+            }
+            
+            .footer-center {
+              text-align: center;
+              color: #9ca3af;
+            }
+            
+            .badge {
+              display: inline-block;
+              padding: 4px 8px;
+              font-size: 9px;
+              font-weight: bold;
+              border-radius: 12px;
+              background: #dcfce7;
+              color: #166534;
+            }
+            
+            .badge-corporate {
+              background: #dbeafe;
+              color: #1e40af;
+            }
+            
+            .badge-wholesale {
+              background: #dcfce7;
+              color: #166534;
+            }
+            
+            .rank-badge {
+              display: inline-flex;
+              align-items: center;
+              justify-content: center;
+              width: 24px;
+              height: 24px;
+              border-radius: 50%;
+              color: white;
+              font-weight: bold;
+              font-size: 10px;
+            }
+            
+            .rank-1 { background: #eab308; }
+            .rank-2 { background: #9ca3af; }
+            .rank-3 { background: #fb923c; }
+            
+            @page {
+              size: A4 portrait;
+              margin: 15mm;
+            }
+            
+            @media print {
+              .report-container {
+                margin: 0;
+                padding: 0;
+              }
+              
+              .header {
+                margin: 0 0 30px 0;
+              }
+            }
+          </style>
+        </head>
+        <body>
+          <div class="report-container">
+            ${printContent}
+          </div>
+        </body>
+      </html>
+    `);
+    
+    printWindow.document.close();
+    printWindow.focus();
+    
+    // Wait for content to load then print
+    setTimeout(() => {
+      printWindow.print();
+      printWindow.close();
+    }, 500);
+  };
+
+  const handleDownloadPDF = () => {
+    alert('PDF download functionality would be implemented here using libraries like jsPDF or Puppeteer');
+  };
+
+  const formatCurrency = (amount) => {
+    return new Intl.NumberFormat('en-IN', {
+      style: 'currency',
+      currency: 'INR',
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0
+    }).format(amount);
+  };
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-600"></div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="bg-red-50 border border-red-200 text-red-700 px-6 py-4 rounded-lg shadow-sm">
+        <div className="flex items-center">
+          <FileText className="w-5 h-5 mr-2" />
+          {error}
+        </div>
+      </div>
+    );
+  }
+
+  if (!reportData) {
+    return <div className="text-center py-8 text-gray-600">No report data available</div>;
+  }
+
+  return (
+    <div className="min-h-screen bg-gray-50">
+      {/* Action Buttons */}
+      <div className="bg-white shadow-sm border-b">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+          <div className="flex justify-end space-x-4">
+            <button
+              onClick={handlePrint}
+              className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors shadow-md"
+            >
+              <Printer className="w-4 h-4 mr-2" />
+              Print Report
+            </button>
+            <button
+              onClick={handleDownloadPDF}
+              className="flex items-center px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors shadow-md"
+            >
+              <Download className="w-4 h-4 mr-2" />
+              Download PDF
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Report Content */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="bg-white shadow-lg rounded-lg overflow-hidden">
+          <div id="report-content">
+            {/* Header */}
+            <div className="header">
+              <h1>BRANCH PERFORMANCE REPORT</h1>
+              <p>Comprehensive Business Analytics & Performance Review</p>
+              <div className="report-info">
+                <div>Report Generated: {format(new Date(), 'MMMM dd, yyyy')}</div>
+                <div>Time: {format(new Date(), 'hh:mm a')}</div>
+              </div>
+            </div>
+
+            <div style={{ padding: '0 30px 30px 30px' }}>
+              {/* Executive Summary */}
+              <h2>EXECUTIVE SUMMARY</h2>
+              <div className="info-box">
+                <div className="grid">
+                  <div>
+                    <h3>Branch Information</h3>
+                    <div style={{ fontSize: '12px', lineHeight: '1.6' }}>
+                      <div><strong>Branch Name:</strong> {reportData.branch.name}</div>
+                      <div><strong>Branch Manager:</strong> {reportData.branch.managerName}</div>
+                      <div><strong>Location:</strong> {reportData.branch.location}</div>
+                      <div><strong>Established:</strong> {new Date(reportData.branch.establishedDate).toLocaleDateString('en-IN')}</div>
+                      <div><strong>Status:</strong> {reportData.branch.isDefault ? 'Primary Branch' : 'Secondary Branch'}</div>
+                    </div>
+                  </div>
+                  <div>
+                    <h3>Key Performance Indicators</h3>
+                    <div style={{ fontSize: '12px', lineHeight: '1.6' }}>
+                      <div><strong>Monthly Revenue:</strong> {formatCurrency(reportData.revenueSummary[2]?.revenue || 0)}</div>
+                      <div><strong>Total Invoices:</strong> {reportData.revenueSummary[2]?.invoiceCount || 0}</div>
+                      <div><strong>Average Transaction:</strong> {formatCurrency(reportData.revenueSummary[2]?.avgInvoiceValue || 0)}</div>
+                      <div><strong>Regular Clients:</strong> {reportData.clientInsights.regularClients}</div>
+                      <div><strong>Revenue from Regular Clients:</strong> {reportData.clientInsights.regularClientsRevenuePercentage}%</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Revenue Analysis */}
+              <h2>REVENUE ANALYSIS</h2>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Time Period</th>
+                    <th>Total Revenue</th>
+                    <th>Invoice Count</th>
+                    <th>Average Value</th>
+                    <th>Performance</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {reportData.revenueSummary.map((period, index) => (
+                    <tr key={index} className={period.isCurrent ? 'current-row' : ''}>
+                      <td style={{ fontWeight: 'bold' }}>{period.period}</td>
+                      <td style={{ fontWeight: 'bold', color: period.isCurrent ? '#059669' : '#000' }}>
+                        {formatCurrency(period.revenue)}
+                      </td>
+                      <td>{period.invoiceCount}</td>
+                      <td>{formatCurrency(period.avgInvoiceValue)}</td>
+                      <td>
+                        {period.isCurrent && <span className="badge">Current</span>}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+
+              {/* Category Performance */}
+              <h2>CATEGORY PERFORMANCE ANALYSIS</h2>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Category</th>
+                    <th>Daily Revenue</th>
+                    <th>Weekly Revenue</th>
+                    <th>Monthly Revenue</th>
+                    <th>Top Subcategory</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {reportData.categoryPerformance.map((category, index) => (
+                    <tr key={index}>
+                      <td style={{ fontWeight: 'bold' }}>{category.name}</td>
+                      <td>{formatCurrency(category.dailyRevenue)}</td>
+                      <td>{formatCurrency(category.weeklyRevenue)}</td>
+                      <td style={{ fontWeight: 'bold' }}>{formatCurrency(category.monthlyRevenue)}</td>
+                      <td>
+                        <div style={{ fontWeight: 'bold' }}>{category.topSubcategory.name}</div>
+                        <div style={{ fontSize: '10px', color: '#6b7280' }}>
+                          {formatCurrency(category.topSubcategory.revenue)}
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+
+              {/* Top Subcategories */}
+              <h2>TOP PERFORMING SUBCATEGORIES</h2>
+              <h3>Monthly Performance Ranking</h3>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Rank</th>
+                    <th>Subcategory</th>
+                    <th>Category</th>
+                    <th>Revenue</th>
+                    <th>Sales Count</th>
+                    <th>Avg. Price</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {reportData.topSubcategories.map((subcategory, index) => (
+                    <tr key={index}>
+                      <td>
+                        <span className={`rank-badge rank-${index + 1}`}>
+                          {index + 1}
+                        </span>
+                      </td>
+                      <td style={{ fontWeight: 'bold' }}>{subcategory.name}</td>
+                      <td>{subcategory.category}</td>
+                      <td style={{ fontWeight: 'bold' }}>{formatCurrency(subcategory.revenue)}</td>
+                      <td>{subcategory.salesCount}</td>
+                      <td>{formatCurrency(subcategory.avgPrice)}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+
+              {/* Client Analytics */}
+              <h2>CLIENT ANALYTICS & INSIGHTS</h2>
+              <div className="info-box">
+                <h3>Client Portfolio Overview</h3>
+                <div className="grid-3">
+                  <div>
+                    <div className="stat-number" style={{ color: '#3b82f6' }}>
+                      {reportData.clientInsights.regularClients}
+                    </div>
+                    <div>Regular Clients</div>
+                  </div>
+                  <div>
+                    <div className="stat-number" style={{ color: '#059669' }}>
+                      {reportData.clientInsights.regularClientsRevenuePercentage}%
+                    </div>
+                    <div>Revenue from Regular Clients</div>
+                  </div>
+                  <div>
+                    <div className="stat-number" style={{ color: '#7c3aed' }}>
+                      {reportData.clientInsights.newClientsThisMonth}
+                    </div>
+                    <div>New Clients This Month</div>
+                  </div>
+                </div>
+              </div>
+
+              <h3>Top Clients by Revenue Contribution</h3>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Client Name</th>
+                    <th>Client Type</th>
+                    <th>Total Spent</th>
+                    <th>Purchase Count</th>
+                    <th>Avg. Purchase</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {reportData.topClients.map((client, index) => (
+                    <tr key={index}>
+                      <td style={{ fontWeight: 'bold' }}>{client.name}</td>
+                      <td>
+                        <span className={`badge ${client.type === 'Corporate' ? 'badge-corporate' : 'badge-wholesale'}`}>
+                          {client.type}
+                        </span>
+                      </td>
+                      <td style={{ fontWeight: 'bold' }}>{formatCurrency(client.totalSpent)}</td>
+                      <td>{client.purchaseCount}</td>
+                      <td>{formatCurrency(client.avgPurchase)}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+
+              {/* Recommendations */}
+              <h2>STRATEGIC RECOMMENDATIONS</h2>
+              <div className="recommendation-list">
+                <h3>Action Items for Performance Enhancement</h3>
+                {reportData.recommendations.map((recommendation, index) => (
+                  <div key={index} className="recommendation-item">
+                    <span className="recommendation-number">{index + 1}</span>
+                    <div style={{ fontSize: '12px', lineHeight: '1.5' }}>{recommendation}</div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Footer */}
+              <div className="footer">
+                <div className="footer-grid">
+                  <div>
+                    <div><strong>Report Prepared By:</strong> Branch Management System</div>
+                    <div><strong>Report ID:</strong> BPR-{format(new Date(), 'yyyyMMdd')}-{Math.random().toString(36).substr(2, 6).toUpperCase()}</div>
+                  </div>
+                  <div style={{ textAlign: 'right' }}>
+                    <div><strong>Generated:</strong> {format(new Date(), 'MMMM dd, yyyy HH:mm')}</div>
+                    <div><strong>Status:</strong> <span style={{ color: '#059669', fontWeight: 'bold' }}>FINAL</span></div>
+                  </div>
+                </div>
+                <div className="footer-center">
+                  <div>This is a computer-generated report. All financial figures are in Indian Rupees (₹).</div>
+                  <div>Confidential and Proprietary - For Internal Use Only</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default BranchPerformanceReport;
