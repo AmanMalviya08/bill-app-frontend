@@ -30,11 +30,11 @@ const Companies = () => {
   const [reportData, setReportData] = useState(null);
 
   // Import modal state
-  const [isImportModalOpen, setIsImportModalOpen] = useState(false);
+  // const [isImportModalOpen, setIsImportModalOpen] = useState(false);
   const [importType, setImportType] = useState(""); // 'category' or 'subcategory'
   const [importFile, setImportFile] = useState(null);
-  const [importProgress, setImportProgress] = useState(0);
-  const [importStatus, setImportStatus] = useState(""); // 'uploading', 'processing', 'success', 'error'
+  // const [importProgress, setImportProgress] = useState(0);
+  // const [importStatus, setImportStatus] = useState(""); // 'uploading', 'processing', 'success', 'error'
 
 
 

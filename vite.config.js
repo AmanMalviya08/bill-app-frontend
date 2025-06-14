@@ -6,7 +6,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'http://localhost:5000', // your local backend
+        target: 'https://bill-app-backend-1.onrender.com', // your local backend
         changeOrigin: true,
         secure: false,
       },
